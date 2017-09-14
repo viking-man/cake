@@ -1,0 +1,15 @@
+insert into bs_permission (id, rowstamp, createuser, 
+      createtime, modifyuser, modifytime, 
+      permission, name, alias, 
+      remark)
+    values (
+1,#{id,jdbcType=BIGINT}, 
+unix_timestamp(now())*1000,#{rowstamp,jdbcType=BIGINT}, 
+1,#{createuser,jdbcType=BIGINT}, 
+ now(),     #{createtime,jdbcType=TIMESTAMP},
+ 1,#{modifyuser,jdbcType=BIGINT},
+ now(),#{modifytime,jdbcType=TIMESTAMP}, 
+ 'user.create',     #{permission,jdbcType=VARCHAR}, 
+'新建用户',#{name,jdbcType=VARCHAR},
+ '新建用户',#{alias,jdbcType=VARCHAR}, 
+  '');    #{remark,jdbcType=VARCHAR})
