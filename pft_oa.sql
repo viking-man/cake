@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2017-09-15 19:44:24
+Date: 2017-09-29 21:14:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,7 +33,7 @@ CREATE TABLE `bs_department` (
   `fixed` tinyint(4) NOT NULL DEFAULT '0' COMMENT '固有部门',
   PRIMARY KEY (`id`),
   UNIQUE KEY `orgid` (`departmentno`,`departmentname`,`fixed`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='部门定义表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='部门定义表';
 
 -- ----------------------------
 -- Records of bs_department
@@ -41,7 +41,26 @@ CREATE TABLE `bs_department` (
 INSERT INTO `bs_department` VALUES ('1', '1', '1', '2017-09-15 17:30:53', '1', '2017-09-15 17:30:56', 'technology', '技术部', '技术部', null, '1');
 INSERT INTO `bs_department` VALUES ('2', '1', '1', '2017-09-15 17:30:53', '1', '2017-09-15 17:30:56', 'operation', '运维部', '运维部', '', '1');
 INSERT INTO `bs_department` VALUES ('3', '1', '1', '2017-09-15 17:30:53', '1', '2017-09-15 17:30:56', 'market', '市场部', '市场部', '', '1');
-INSERT INTO `bs_department` VALUES ('4', '1', '1', '2017-09-15 17:30:53', '1', '2017-09-15 17:30:56', 'market', '管理层', '管理层', '', '1');
+INSERT INTO `bs_department` VALUES ('4', '1', '1', '2017-09-15 17:30:53', '1', '2017-09-15 17:30:56', 'manager', '管理层', '管理层', '', '1');
+INSERT INTO `bs_department` VALUES ('5', '1', '1', '2017-09-15 17:30:53', '1', '2017-09-15 17:30:56', 'personnel', '人事部', '人事部', '', '1');
+INSERT INTO `bs_department` VALUES ('6', '1506516231993', '1', '2017-09-27 20:43:52', '1', '2017-09-27 20:56:12', 'test', 'test', 'test', 'testsss', '1');
+
+-- ----------------------------
+-- Table structure for bs_departmentpermission
+-- ----------------------------
+DROP TABLE IF EXISTS `bs_departmentpermission`;
+CREATE TABLE `bs_departmentpermission` (
+  `departmentid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
+  `permission` varchar(40) NOT NULL COMMENT '权限项',
+  `url` varchar(30) NOT NULL COMMENT '请求路径',
+  UNIQUE KEY `departmentid` (`departmentid`,`permission`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='部门授权';
+
+-- ----------------------------
+-- Records of bs_departmentpermission
+-- ----------------------------
+INSERT INTO `bs_departmentpermission` VALUES ('5', 'user.create', '/oa/user/user/create.do');
+INSERT INTO `bs_departmentpermission` VALUES ('5', 'user.query', '/oa/user/user/query.do');
 
 -- ----------------------------
 -- Table structure for bs_permission
@@ -58,20 +77,20 @@ CREATE TABLE `bs_permission` (
   `name` varchar(40) NOT NULL COMMENT '名称',
   `alias` varchar(40) NOT NULL COMMENT '别名',
   `remark` varchar(200) DEFAULT NULL COMMENT '描述',
-  `actionvalue` varchar(30) NOT NULL COMMENT '动作参数',
+  `url` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `permission` (`permission`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='权限项(子系统)';
+  UNIQUE KEY `permission` (`permission`,`name`,`url`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='权限项(子系统)';
 
 -- ----------------------------
 -- Records of bs_permission
 -- ----------------------------
-INSERT INTO `bs_permission` VALUES ('1', '1505131964000', '1', '2017-09-11 20:12:44', '1', '2017-09-11 20:12:44', 'user.create', '新建用户', '新建用户', '', '/userCreate.do');
-INSERT INTO `bs_permission` VALUES ('2', '1505132149000', '1', '2017-09-11 20:15:49', '1', '2017-09-11 20:15:49', 'user.query', '查询用户', '查询用户', '', '/userQuery.do');
-INSERT INTO `bs_permission` VALUES ('3', '1505132225000', '1', '2017-09-11 20:17:05', '1', '2017-09-11 20:17:05', 'user.update', '更改用户', '更改用户', '', '/userUpdate.do');
-INSERT INTO `bs_permission` VALUES ('4', '1505132242000', '1', '2017-09-11 20:17:22', '1', '2017-09-11 20:17:22', 'user.delete', '删除用户', '删除用户', '', '/userDelete.do');
-INSERT INTO `bs_permission` VALUES ('5', '1505132242000', '1', '2017-09-11 20:17:22', '1', '2017-09-11 20:17:22', 'user.edit', '编辑用户', '编辑用户', '', '/userEdit.do');
-INSERT INTO `bs_permission` VALUES ('6', '1505132242000', '1', '2017-09-11 20:17:22', '1', '2017-09-11 20:17:22', 'user.insert', '插入用户', '插入用户', '', '/userInsert.do');
+INSERT INTO `bs_permission` VALUES ('1', '1505131964000', '1', '2017-09-11 20:12:44', '1', '2017-09-28 14:26:47', 'user.create', '新建用户', '新建用户', 'ss', '/oa/user/user/create.do');
+INSERT INTO `bs_permission` VALUES ('2', '1505132149000', '1', '2017-09-11 20:15:49', '1', '2017-09-11 20:15:49', 'user.query', '查询用户', '查询用户', '', '/oa/user/user/query.do');
+INSERT INTO `bs_permission` VALUES ('3', '1505132225000', '1', '2017-09-11 20:17:05', '1', '2017-09-21 11:50:02', 'user.update', '更改用户', '更改用户ss', '', '/oa/user/user/update.do');
+INSERT INTO `bs_permission` VALUES ('4', '1505132242000', '1', '2017-09-11 20:17:22', '1', '2017-09-22 13:18:39', 'user.delete', '删除用户', '删除用户', 'ssssssss', '/oa/user/user/delete.do');
+INSERT INTO `bs_permission` VALUES ('5', '1505132242000', '1', '2017-09-11 20:17:22', '1', '2017-09-11 20:17:22', 'user.edit', '编辑用户', '编辑用户', '', '/oa/user/user/edit.do');
+INSERT INTO `bs_permission` VALUES ('6', '1505132242000', '1', '2017-09-11 20:17:22', '1', '2017-09-11 20:17:22', 'user.insert', '插入用户', '插入用户', '', '/oa/user/user/insert.do');
 
 -- ----------------------------
 -- Table structure for bs_role
@@ -91,14 +110,20 @@ CREATE TABLE `bs_role` (
   `fixed` tinyint(4) NOT NULL DEFAULT '0' COMMENT '固有角色',
   PRIMARY KEY (`id`),
   UNIQUE KEY `orgid` (`rolecode`,`rolename`,`fixed`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='角色定义表';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='角色定义表';
 
 -- ----------------------------
 -- Records of bs_role
 -- ----------------------------
-INSERT INTO `bs_role` VALUES ('1', '1', '1', '2017-09-15 15:43:32', '1', '2017-09-15 15:43:35', 'charge', '主管', '主管', '', '1');
-INSERT INTO `bs_role` VALUES ('2', '12', '1', '2017-09-15 15:43:32', '1', '2017-09-15 15:43:35', 'normal', '普通员工', '普通员工', '', '1');
-INSERT INTO `bs_role` VALUES ('3', '12', '1', '2017-09-15 15:43:32', '1', '2017-09-15 15:43:35', 'groupleader', '组长', '组长', '', '1');
+INSERT INTO `bs_role` VALUES ('1', '1', '1', '2017-09-15 15:43:32', '1', '2017-09-19 11:00:25', 'charge', '部门主管', '部门主管', '部门主管', '1');
+INSERT INTO `bs_role` VALUES ('2', '12', '1', '2017-09-15 15:43:32', '1', '2017-09-20 19:52:23', 'normal', '普通员工', '普通员工', 'ssssss', '1');
+INSERT INTO `bs_role` VALUES ('3', '1', '1', '2017-09-15 15:43:32', '1', '2017-09-19 11:00:25', 'group', '小组组长', '小组组长', '', '1');
+INSERT INTO `bs_role` VALUES ('4', '1', '1', '2017-09-15 15:43:32', '1', '2017-09-19 11:00:25', 'manager', '总经理', '总经理', '', '1');
+INSERT INTO `bs_role` VALUES ('6', '1505794864438', '1', '2017-09-19 12:21:04', '1', '2017-09-22 13:19:17', 'test', 'test', 'test', 'tss', '0');
+INSERT INTO `bs_role` VALUES ('23', '1505909013882', '1', '2017-09-20 20:03:34', '1', '2017-09-22 14:46:37', 'www', 'qwe', 'we', 'sss', '1');
+INSERT INTO `bs_role` VALUES ('31', '1505911827279', '1', '2017-09-20 20:50:27', '1', '2017-09-22 14:46:32', 'qwess', 'qwe', 'qwe', 'qwesssssssss', '0');
+INSERT INTO `bs_role` VALUES ('32', '1505912334113', '1', '2017-09-20 20:58:54', '1', '2017-09-22 14:46:28', 'sadss', 'wqe', 'qw', 'qwessssss', '1');
+INSERT INTO `bs_role` VALUES ('33', '1505999546702', '1', '2017-09-21 21:12:27', '1', '2017-09-22 14:25:58', 'tes', 's', 's', 'sssswsss', '0');
 
 -- ----------------------------
 -- Table structure for bs_rolepermission
@@ -107,13 +132,27 @@ DROP TABLE IF EXISTS `bs_rolepermission`;
 CREATE TABLE `bs_rolepermission` (
   `roleid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `permission` varchar(40) NOT NULL COMMENT '权限项',
-  `actionvalue` varchar(30) NOT NULL COMMENT '动作值',
+  `url` varchar(30) NOT NULL COMMENT '请求路径',
   UNIQUE KEY `roleid` (`roleid`,`permission`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色授权';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='角色授权';
 
 -- ----------------------------
 -- Records of bs_rolepermission
 -- ----------------------------
+INSERT INTO `bs_rolepermission` VALUES ('1', 'user.create', '/oa/user/user/create.do');
+INSERT INTO `bs_rolepermission` VALUES ('1', 'user.edit', '/oa/user/user/edit.do');
+INSERT INTO `bs_rolepermission` VALUES ('1', 'user.query', '/oa/user/user/query.do');
+INSERT INTO `bs_rolepermission` VALUES ('1', 'user.update', '/oa/user/user/update.do');
+INSERT INTO `bs_rolepermission` VALUES ('2', 'user.edit', '/oa/user/user/edit.do');
+INSERT INTO `bs_rolepermission` VALUES ('2', 'user.query', '/oa/user/user/query.do');
+INSERT INTO `bs_rolepermission` VALUES ('2', 'user.update', '/oa/user/user/update.do');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'test', 'test');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'user.create', '/oa/user/user/create.do');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'user.delete', '/oa/user/user/delete.do');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'user.edit', '/oa/user/user/edit.do');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'user.insert', '/oa/user/user/insert.do');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'user.query', '/oa/user/user/query.do');
+INSERT INTO `bs_rolepermission` VALUES ('6', 'user.update', '/oa/user/user/update.do');
 
 -- ----------------------------
 -- Table structure for bs_user
@@ -170,11 +209,12 @@ CREATE TABLE `bs_userdepartment` (
   `departmentid` bigint(20) NOT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`departmentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工部门表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='员工部门表';
 
 -- ----------------------------
 -- Records of bs_userdepartment
 -- ----------------------------
+INSERT INTO `bs_userdepartment` VALUES ('1', '1505635270807', '1', '2017-09-17 16:01:11', '1', '2017-09-17 16:01:11', '1', '1');
 
 -- ----------------------------
 -- Table structure for bs_userrole
@@ -191,11 +231,12 @@ CREATE TABLE `bs_userrole` (
   `roleid` bigint(20) NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`roleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='员工角色表';
 
 -- ----------------------------
 -- Records of bs_userrole
 -- ----------------------------
+INSERT INTO `bs_userrole` VALUES ('1', '1505635259462', '1', '2017-09-17 16:00:59', '1', '2017-09-17 16:00:59', '1', '1');
 
 -- ----------------------------
 -- Table structure for user_t
