@@ -1,0 +1,1 @@
+-Dwbcloud_config_dir=D:\wbcs-config\develop -Dwbcs_runtime_dir=D:\wbcs-runtime\logs\
